@@ -2,14 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ClerkProvider, UserButton } from "@clerk/nextjs";
-
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-} from '@clerk/nextjs'
+import { ClerkProvider} from "@clerk/nextjs";
 
 const IBMPlex = IBM_Plex_Sans({
   variable: "--font-ibm-plex",
