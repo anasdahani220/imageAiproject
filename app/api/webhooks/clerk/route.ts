@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import  {clerkClient } from "@clerk/clerk-sdk-node";
+import { clerkClient } from "@clerk/clerk-sdk-node";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -8,6 +8,7 @@ import { Webhook } from "svix";
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 
 export async function POST(req: Request) {
+  console.log("➡️ Clerk Webhook endpoint was hit!");
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
@@ -32,6 +33,7 @@ export async function POST(req: Request) {
 
   // Get the body
   const payload = await req.json();
+  console.log("📦 Raw Payload from Clerk:", payload);
   const body = JSON.stringify(payload);
 
   // Create a new Svix instance with your secret.
@@ -56,21 +58,30 @@ export async function POST(req: Request) {
   // Get the ID and type
   const { id } = evt.data;
   const eventType = evt.type;
+  console.log("➡️ Webhook received:", eventType, evt.data);
 
   // CREATE
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
+    console.log("🟢 Extracted fields:");
+    console.log("ID:", id);
+    console.log("Email:", email_addresses?.[0]?.email_address);
+    console.log("First Name:", first_name);
+    console.log("Last Name:", last_name);
+    console.log("Username:", username);
+
     const user = {
       clerkId: id,
       email: email_addresses[0].email_address,
-      username: username!,
+      userName: username || email_addresses[0].email_address.split("@")[0] || id,
       firstName: first_name,
       lastName: last_name,
       photo: image_url,
     };
-
+    console.log("💾 User to save in DB:", user);
     const newUser = await createUser(user);
+    console.log("✅ Saved User in DB:", newUser);
 
     // Set public metadata
     if (newUser) {
@@ -91,7 +102,7 @@ export async function POST(req: Request) {
     const user = {
       firstName: first_name,
       lastName: last_name,
-      username: username!,
+      userName: username!,
       photo: image_url,
     };
 

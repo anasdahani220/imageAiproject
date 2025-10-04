@@ -2,19 +2,23 @@
 
 import { revalidatePath } from "next/cache";
 
-import {User} from "../database/models/user.model";
-import { connectToDataBase } from "../database/mongodb";
+import User from "../database/models/user.model";
+import { connectToDatabase } from "../database/mongodb";
 import { handleError } from "../utils";
 
 // CREATE
 export async function createUser(user: CreateUserParams) {
   try {
-    await connectToDataBase();
+    await connectToDatabase();
+    console.log("User before create:", user);
+
 
     const newUser = await User.create(user);
 
     return JSON.parse(JSON.stringify(newUser));
-  } catch (error) {
+  } catch (error: any) {
+    console.error("Error in createUser:", error.message);
+    console.error(error.stack); // يطبع السطر الأصلي للخطأ
     handleError(error);
   }
 }
@@ -22,7 +26,7 @@ export async function createUser(user: CreateUserParams) {
 // READ
 export async function getUserById(userId: string) {
   try {
-    await connectToDataBase();
+    await connectToDatabase();
 
     const user = await User.findOne({ clerkId: userId });
 
@@ -37,7 +41,7 @@ export async function getUserById(userId: string) {
 // UPDATE
 export async function updateUser(clerkId: string, user: UpdateUserParams) {
   try {
-    await connectToDataBase();
+    await connectToDatabase();
 
     const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
       new: true,
@@ -54,7 +58,7 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
 // DELETE
 export async function deleteUser(clerkId: string) {
   try {
-    await connectToDataBase();
+    await connectToDatabase();
 
     // Find user to delete
     const userToDelete = await User.findOne({ clerkId });
@@ -76,7 +80,7 @@ export async function deleteUser(clerkId: string) {
 // USE CREDITS
 export async function updateCredits(userId: string, creditFee: number) {
   try {
-    await connectToDataBase();
+    await connectToDatabase();
 
     const updatedUserCredits = await User.findOneAndUpdate(
       { _id: userId },
