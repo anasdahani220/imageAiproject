@@ -10,15 +10,11 @@ import { handleError } from "../utils";
 export async function createUser(user: CreateUserParams) {
   try {
     await connectToDatabase();
-    console.log("User before create:", user);
-
-
+    
     const newUser = await User.create(user);
 
     return JSON.parse(JSON.stringify(newUser));
   } catch (error: any) {
-    console.error("Error in createUser:", error.message);
-    console.error(error.stack); // يطبع السطر الأصلي للخطأ
     handleError(error);
   }
 }
