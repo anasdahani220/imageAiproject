@@ -6,7 +6,8 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
-async function AddTransformationTypePage({params: {type}}: SearchParamProps) {
+async function AddTransformationTypePage({params}: SearchParamProps) {
+  const { type } = await params;
   const {userId} = await auth() ;
   const transformation = transformationTypes[type] ;
   
@@ -19,11 +20,13 @@ async function AddTransformationTypePage({params: {type}}: SearchParamProps) {
     <>
         <Header title={transformation.title}
                 Subtitle={transformation.subTitle} />
-        <TransformationForm 
+        <section className='mt-10'>
+           <TransformationForm 
            action='Add' 
            userId={user._id} 
            type={transformation.type as TransformationTypeKey} 
            creditBalance={user.creditBalance}/>
+        </section>
     </>
   )
 }
