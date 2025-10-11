@@ -4,7 +4,7 @@ import {CldImage, CldUploadWidget} from 'next-cloudinary'
 import {toast} from 'sonner' ;
 import Image from 'next/image';
 import { dataUrl, getImageSize } from '@/lib/utils';
-import { PlaceholderStyle, PlaceholderValue } from 'next/dist/shared/lib/get-img-props';
+import {PlaceholderValue } from 'next/dist/shared/lib/get-img-props';
 
 interface MediaUploaderProps {
     onValueChange: (value: string) => void ;
@@ -22,7 +22,7 @@ function MediaUploader({onValueChange , type , publicId , setImage , image}: Med
         publicId: result?.info?.public_id ,
         width: result?.info?.width ,
         height: result?.info?.height ,
-        secureUrl: result?.info?.secure_url ,
+        secureURL: result?.info?.secure_URL ,
      }))
 
      onValueChange(result?.info?.public_id)

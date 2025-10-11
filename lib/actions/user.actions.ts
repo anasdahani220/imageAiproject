@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongodb";
 import { handleError } from "../utils";
+import { json } from "zod";
 
 // CREATE
 export async function createUser(user: CreateUserParams) {
@@ -74,20 +75,14 @@ export async function deleteUser(clerkId: string) {
 }
 
 // USE CREDITS
-export async function updateCredits(userId: string, creditFee: number) {
+export const updateCredits = async (userId: string , creditFee: Number) => {
   try {
-    await connectToDatabase();
+     await connectToDatabase() ;
+     const updatecredits = await User.findByIdAndUpdate({ _id: userId}, {$inc: {creditBalance: creditFee}}, {new: true})
 
-    const updatedUserCredits = await User.findOneAndUpdate(
-      { _id: userId },
-      { $inc: { creditBalance: creditFee }},
-      { new: true }
-    )
-
-    if(!updatedUserCredits) throw new Error("User credits update failed");
-
-    return JSON.parse(JSON.stringify(updatedUserCredits));
-  } catch (error) {
-    handleError(error);
+     if (!updatecredits) throw new Error('User credits update failed') ;
+     return JSON.parse(JSON.stringify(updatecredits)) ;
+  }catch (error) {
+    handleError(error) ;
   }
 }
