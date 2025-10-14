@@ -74,7 +74,7 @@ export const getImageByid = async (imageId: string) => {
     }
 }
 
-export const getAllImages = async ({ limit = 9, page = 1, searchQuery = '' }: { limit?: number, page: number, searchQuery: string }) => {
+export const getAllImages = async ({ limit = 9, page = 1, searchQuery = '' }: { limit?: number, page: number, searchQuery?: string }) => {
     try {
         await connectToDatabase();
 

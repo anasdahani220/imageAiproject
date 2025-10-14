@@ -8,11 +8,11 @@ import React from 'react'
 
 
 async function Home({searchParams}: SearchParamProps) {
-  const resolvedParams = await searchParams;
-  const page = Number(resolvedParams?.page) || 1;
-  const searchQuery = typeof resolvedParams?.query === 'string' ? resolvedParams.query : '';
+    const page = Number(searchParams?.page) || 1;
+    const searchQuery = (searchParams?.query as string) || '';
 
-  const images = await getAllImages({ page, searchQuery });
+    const images = await getAllImages({ page, searchQuery})
+
   return (
     <>
       <section className='home'>
@@ -32,7 +32,7 @@ async function Home({searchParams}: SearchParamProps) {
           ))}
         </ul>
       </section>
-      <section className='max-sm:mt-12'>
+      <section className='sm:mt-12'>
         <Collection 
           hasSearch={true}
           images={images?.data}
