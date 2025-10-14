@@ -28,6 +28,7 @@ async function AddTransformationTypePage({params}: SearchParamProps) {
            creditBalance={user.creditBalance}/>
         </section>
     </>
+    
   )
 }
 

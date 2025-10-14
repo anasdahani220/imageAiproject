@@ -22,7 +22,7 @@ function MediaUploader({onValueChange , type , publicId , setImage , image}: Med
         publicId: result?.info?.public_id ,
         width: result?.info?.width ,
         height: result?.info?.height ,
-        secureURL: result?.info?.secure_URL ,
+        secureURL: result?.info?.secure_url ,
      }))
 
      onValueChange(result?.info?.public_id)
