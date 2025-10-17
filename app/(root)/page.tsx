@@ -1,15 +1,19 @@
+export const dynamic = "force-dynamic";
 import { Collection } from '@/components/shared/Collection';
 import { navLinks } from '@/constants';
 import { getAllImages } from '@/lib/actions/image.actions';
-import { SearchParams } from 'next/dist/server/request/search-params';
 import Link from 'next/link';
 import React from 'react'
 
+type SearchOnlyProps = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 
-async function Home({searchParams}: SearchParamProps) {
-    const page = Number(searchParams?.page) || 1;
-    const searchQuery = (searchParams?.query as string) || '';
+async function Home({searchParams}: SearchOnlyProps) {
+      const params = await searchParams;
+      const page = Number(params?.page ?? 1);
+      const searchQuery = typeof params?.query === 'string' ? params.query : '';
 
     const images = await getAllImages({ page, searchQuery})
 
