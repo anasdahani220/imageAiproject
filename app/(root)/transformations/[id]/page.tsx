@@ -7,6 +7,7 @@ import TransformedImage from "@/components/shared/TransformedImage";
 import { Button } from "@/components/ui/button";
 import {getImageByid}  from "@/lib/actions/image.actions";
 import { getImageSize } from "@/lib/utils";
+import { DeleteConfirmation } from "@/components/shared/DeleteConfirmation";
 //import { DeleteConfirmation } from "@/components/shared/DeleteConfirmation";
 
 const ImageDetails = async ({
@@ -95,6 +96,7 @@ const ImageDetails = async ({
                 Update Image
               </Link>
             </Button>
+            <DeleteConfirmation imageId={image._id} />
           </div>
         )}
       </section>

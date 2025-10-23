@@ -139,7 +139,8 @@ const TransformationForm = ({ data = null, action, userId, type, creditBalance, 
                     }
                 }))
                 return onChangeField(value)
-            }, 1000);
+            }, 1000)();
+            return onChangeField(value) ;
         }
         const onTransformHandler = async () => {
             setisTransforming(true);
@@ -172,7 +173,7 @@ const TransformationForm = ({ data = null, action, userId, type, creditBalance, 
                             formLabel="Aspect Ratio"
                             className="w-full"
                             render={({ field }) => (
-                                <Select onValueChange={(value) => onSelectFieldHandler(value, field.onChange)}>
+                                <Select onValueChange={(value) => onSelectFieldHandler(value, field.onChange)} value={field.value}>
                                     <SelectTrigger className="select-field">
                                         <SelectValue placeholder="Select size" />
                                     </SelectTrigger>
